@@ -559,8 +559,12 @@ namespace MonoGame.OpenGL
             ES = 12448,
             GL = 12450,
         }
-
+#if GLES
+        internal static RenderApi BoundApi = RenderApi.ES;
+#else
         internal static RenderApi BoundApi = RenderApi.GL;
+#endif
+
         private const CallingConvention callingConvention = CallingConvention.Winapi;
 
         [System.Security.SuppressUnmanagedCodeSecurity()]

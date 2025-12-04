@@ -13,6 +13,12 @@ namespace Microsoft.Xna.Framework
             var surfaceFormat = _game.graphicsDeviceManager.PreferredBackBufferFormat.GetColorFormat();
             var depthStencilFormat = _game.graphicsDeviceManager.PreferredDepthStencilFormat;
 
+#if GLES
+            Sdl.GL.SetAttribute(Sdl.GL.Attribute.ContextProfileMAsl, 4); // 4 is the enum value for GLES, defined in SDL_video.h
+            Sdl.GL.SetAttribute(Sdl.GL.Attribute.ContextMajorVersion, 2);
+            Sdl.GL.SetAttribute(Sdl.GL.Attribute.ContextMinorVersion, 0); // GLES 2.0
+#endif
+
             // TODO Need to get this data from the Presentation Parameters
             Sdl.GL.SetAttribute(Sdl.GL.Attribute.RedSize, surfaceFormat.R);
             Sdl.GL.SetAttribute(Sdl.GL.Attribute.GreenSize, surfaceFormat.G);
@@ -40,8 +46,10 @@ namespace Microsoft.Xna.Framework
             }
 
             Sdl.GL.SetAttribute(Sdl.GL.Attribute.DoubleBuffer, 1);
+#if !GLES
             Sdl.GL.SetAttribute(Sdl.GL.Attribute.ContextMajorVersion, 2);
             Sdl.GL.SetAttribute(Sdl.GL.Attribute.ContextMinorVersion, 1);
+#endif
 
             ((SdlGameWindow)SdlGameWindow.Instance).CreateWindow();
         }
